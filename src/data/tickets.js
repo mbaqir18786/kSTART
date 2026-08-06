@@ -1,0 +1,42 @@
+export const TICKETS = [
+  {
+    id: 'basic',
+    name: 'Basic Tier',
+    price: 30,
+    desc: 'Aptitude + GD + 1 Personal Interview',
+    tags: 'Core / Tech / Non-Tech',
+    badge: 'Available',
+  },
+  {
+    id: 'standard',
+    name: 'Standard Tier',
+    price: 40,
+    desc: 'Aptitude + GD + 2 Personal Interviews',
+    tags: 'Core + Non-Tech',
+    badge: 'Available',
+  },
+  {
+    id: 'tech-pro',
+    name: 'Tech Pro',
+    price: 50,
+    desc: 'Aptitude + GD + 2 Personal Interviews',
+    tags: 'Core + Tech',
+    badge: 'Popular',
+  },
+  {
+    id: 'dual-domain',
+    name: 'Dual Domain',
+    price: 60,
+    desc: 'Aptitude + GD + 2 Personal Interviews',
+    tags: 'Tech + Non-Tech',
+    badge: 'Available',
+  },
+  {
+    id: 'all-rounder',
+    name: 'All Rounder',
+    price: 80,
+    desc: 'Aptitude + GD + 3 Personal Interviews',
+    tags: 'Tech + Core + Non-Tech',
+    badge: 'Best Value',
+  },
+];

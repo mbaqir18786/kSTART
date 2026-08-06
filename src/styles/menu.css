@@ -1,0 +1,181 @@
+/* Sleek Glassmorphic Navbar & Menu */
+nav {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 3rem);
+  max-width: 1200px;
+  padding: 0.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(7, 7, 7, 0.45);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+nav .logo-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+nav .logo-img {
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+nav .logo-img:hover {
+  transform: rotate(5deg) scale(1.05);
+}
+
+/* Nav links for desktop */
+.nav-desktop-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-desktop-links a {
+  font-family: "supply-mono";
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.nav-desktop-links a:hover {
+  opacity: 1;
+  color: var(--accent1);
+}
+
+/* Header Register CTA button */
+.nav-cta {
+  font-family: "supply-mono";
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  color: var(--fg);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-cta:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+/* Toggle Menu button (for mobile only) */
+.menu-toggle-btn {
+  display: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.menu-toggle-btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 20px;
+}
+
+.menu-bar {
+  width: 100%;
+  height: 2px;
+  background-color: var(--fg);
+  transition: all 0.3s ease;
+}
+
+/* Mobile Drawer Overlay */
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(7, 7, 7, 0.98);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.nav-overlay .nav-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-overlay .nav-item {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-overlay.open .nav-item {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.nav-overlay .nav-item a {
+  font-family: "rader";
+  font-style: italic;
+  font-size: 2.5rem;
+  transition: color 0.2s ease;
+}
+
+.nav-overlay .nav-item a:hover {
+  color: var(--accent2);
+}
+
+/* Responsiveness */
+@media (max-width: 1000px) {
+  nav {
+    top: 1rem;
+    width: calc(100% - 2rem);
+    padding: 0.6rem 1.5rem;
+  }
+
+  .nav-desktop-links {
+    display: none;
+  }
+
+  .menu-toggle-btn {
+    display: block;
+  }
+
+  /* Hamburger animations when menu is open */
+  .menu-open .menu-bar:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  
+  .menu-open .menu-bar:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menu-open .menu-bar:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+}
