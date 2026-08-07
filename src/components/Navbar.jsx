@@ -55,12 +55,13 @@ export default function Navbar() {
       <nav>
         <div className="logo-wrapper">
           <Link to="/" onClick={handleLinkClick}>
-            <img src="/Logo.jpg" className="logo-img" alt="KickStart Logo" />
+            <img src={`${import.meta.env.BASE_URL}Logo.jpg`} className="logo-img" alt="KickStart Logo" />
           </Link>
         </div>
 
         {/* Desktop Navigation Links */}
         <div className="nav-desktop-links">
+          <Link to="/" onClick={handleLinkClick}>Home</Link>
           <a href="#events" onClick={(e) => handleAnchorClick(e, '#events')}>Events</a>
           <a href="#schedule" onClick={(e) => handleAnchorClick(e, '#events')}>Schedule</a>
           <a href="#speakers" onClick={(e) => handleAnchorClick(e, '#speakers')}>Speakers</a>
