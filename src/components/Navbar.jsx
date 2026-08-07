@@ -93,8 +93,9 @@ export default function Navbar() {
     <>
       <nav>
         <div className="logo-wrapper">
-          <Link to="/" onClick={handleLinkClick}>
+          <Link to="/" onClick={handleLinkClick} className="logo-link">
             <img src={`${import.meta.env.BASE_URL}Logo.jpg`} className="logo-img" alt="KickStart Logo" />
+            <span className="logo-text">Alumni Cell</span>
           </Link>
         </div>
 
