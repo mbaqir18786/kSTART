@@ -22,7 +22,7 @@ export default function Footer() {
     const imageParticleCount = 10;
     const imagePaths = Array.from(
       { length: imageParticleCount },
-      (_, i) => `/images/hero/img${i + 1}.jpg`
+      (_, i) => `${import.meta.env.BASE_URL}images/hero/img${i + 1}.jpg`
     );
 
     imagePaths.forEach((path) => {
@@ -131,12 +131,12 @@ export default function Footer() {
     <footer ref={footerRef}>
       <div className="footer-container">
         <div className="footer-symbols footer-symbols-1">
-          <img src="/images/global/s6.png" alt="" />
-          <img src="/images/global/s6.png" alt="" />
+          <img src={`${import.meta.env.BASE_URL}images/global/s6.png`} alt="" />
+          <img src={`${import.meta.env.BASE_URL}images/global/s6.png`} alt="" />
         </div>
         <div className="footer-symbols footer-symbols-2">
-          <img src="/images/global/s6.png" alt="" />
-          <img src="/images/global/s6.png" alt="" />
+          <img src={`${import.meta.env.BASE_URL}images/global/s6.png`} alt="" />
+          <img src={`${import.meta.env.BASE_URL}images/global/s6.png`} alt="" />
         </div>
         <div className="footer-header">
           <h1>KickStart</h1>

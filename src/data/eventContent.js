@@ -5,7 +5,7 @@ export const SPEAKERS = [
     role: "Software Engineer @ Google",
     cohort: "KJSCE '21 (Comp)",
     desc: "Cracked Google STEP & SWE placements; expert in dynamic programming and system design.",
-    img: "/images/hero/img1.jpg"
+    img: `${import.meta.env.BASE_URL}images/hero/img1.jpg`
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ export const SPEAKERS = [
     role: "Product Manager @ Microsoft",
     cohort: "KJSCE '20 (IT)",
     desc: "Led PM interview bootcamps; specialization in product strategy and case interviews.",
-    img: "/images/hero/img2.jpg"
+    img: `${import.meta.env.BASE_URL}images/hero/img2.jpg`
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ export const SPEAKERS = [
     role: "Quant Analyst @ Tower Research",
     cohort: "KJSCE '22 (EXTC)",
     desc: "Expert in probability, puzzles, and high-frequency trading placement prep.",
-    img: "/images/hero/img3.jpg"
+    img: `${import.meta.env.BASE_URL}images/hero/img3.jpg`
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ export const SPEAKERS = [
     role: "Consultant @ McKinsey & Co.",
     cohort: "KJSCE '19 (Mech)",
     desc: "Specialist in guesstimates, business case prep, and non-tech resume optimization.",
-    img: "/images/hero/img4.jpg"
+    img: `${import.meta.env.BASE_URL}images/hero/img4.jpg`
   }
 ];
 

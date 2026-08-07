@@ -236,7 +236,7 @@ export default function Home() {
         </div>
         <div className="hero-footer">
           <div className="hero-footer-symbols">
-            <img src="/images/global/symbols.png" alt="" />
+            <img src={`${import.meta.env.BASE_URL}images/global/symbols.png`} alt="" />
           </div>
           <div className="hero-footer-scroll-down">
             <p className="mn">
@@ -261,7 +261,7 @@ export default function Home() {
 
       <section className="hero-img-holder">
         <div className="hero-img">
-          <img src={`/images/hero/img${currentImageIndex}.jpg`} alt="KickStart Event" />
+          <img src={`${import.meta.env.BASE_URL}images/hero/img${currentImageIndex}.jpg`} alt="KickStart Event" />
         </div>
       </section>
       
@@ -295,7 +295,7 @@ export default function Home() {
           {/* Dynamically created originally, now static for React */}
           {[...Array(10)].map((_, i) => (
             <div key={i} className={`featured-img-card featured-img-card-${i + 1}`}>
-              <img src={`/images/hero/img${i + 1}.jpg`} alt={`featured work ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={`${import.meta.env.BASE_URL}images/hero/img${i + 1}.jpg`} alt={`featured work ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           ))}
         </div>
@@ -305,7 +305,7 @@ export default function Home() {
           </div>
           <div className="featured-title-wrapper">
             <div className="featured-title-img">
-              <img src="/images/hero/img1.jpg" alt="Interview Decrypted" />
+              <img src={`${import.meta.env.BASE_URL}images/hero/img1.jpg`} alt="Interview Decrypted" />
             </div>
             <h1 className="featured-title">Interview Decrypted</h1>
             <p className="mn event-meta">03 Feb (Tue) &nbsp;·&nbsp; Seminar Hall B-113</p>
@@ -313,7 +313,7 @@ export default function Home() {
           </div>
           <div className="featured-title-wrapper">
             <div className="featured-title-img">
-              <img src="/images/hero/img2.jpg" alt="Aptitude Test" />
+              <img src={`${import.meta.env.BASE_URL}images/hero/img2.jpg`} alt="Aptitude Test" />
             </div>
             <h1 className="featured-title">Aptitude Test</h1>
             <p className="mn event-meta">04–05 Feb (Wed–Thu) &nbsp;·&nbsp; CCF / Placement Office</p>
@@ -321,7 +321,7 @@ export default function Home() {
           </div>
           <div className="featured-title-wrapper">
             <div className="featured-title-img">
-              <img src="/images/hero/img3.jpg" alt="GD &amp; PI" />
+              <img src={`${import.meta.env.BASE_URL}images/hero/img3.jpg`} alt="GD &amp; PI" />
             </div>
             <h1 className="featured-title">GD &amp; PI</h1>
             <p className="mn event-meta">07–08 Feb (Sat–Sun) &nbsp;·&nbsp; 10 AM – 5 PM</p>

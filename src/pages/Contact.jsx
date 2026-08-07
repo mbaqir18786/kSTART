@@ -35,7 +35,7 @@ export default function Contact() {
 
     const images = Array.from(
       { length: config.imageCount },
-      (_, i) => `/images/hero/img${i + 1}.jpg`
+      (_, i) => `${import.meta.env.BASE_URL}images/hero/img${i + 1}.jpg`
     );
 
     // Preload images
