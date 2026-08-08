@@ -469,7 +469,7 @@ export default function Home() {
       </section>
 
       <section className="contact-cta" id="register">
-        {/* Curved click-here arrow */}
+        {/* Curved click-here arrow pointing from top-right */}
         <div className="click-here-hint" aria-hidden="true">
           <span className="click-here-text">click here!</span>
           <svg
@@ -479,14 +479,14 @@ export default function Home() {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M8 8 C 10 35, 45 48, 80 62"
+              d="M80 8 C 70 35, 40 45, 15 58"
               stroke="currentColor"
               strokeWidth="2.5"
               strokeLinecap="round"
               fill="none"
             />
             <path
-              d="M68 56 L 80 62 L 70 70"
+              d="M26 50 L 15 58 L 24 66"
               stroke="currentColor"
               strokeWidth="2.5"
               strokeLinecap="round"
@@ -497,9 +497,6 @@ export default function Home() {
         </div>
         <div className="contact-button">
           <Link to="/contact"></Link>
-          <div className="contact-text-small">
-            <p>Join 500+ students. Kickstart your placement journey.</p>
-          </div>
           <div className="contact-text-large"><h1>Register Now</h1></div>
         </div>
       </section>

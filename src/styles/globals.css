@@ -256,17 +256,20 @@ p.mn {
   100% { transform: translateX(0%); }
 }
 
-/* ── Curved "Click Here" arrow hint ────────────────────── */
+/* ── Curved "Click Here" arrow hint (Top Right) ────────── */
+.contact-cta {
+  position: relative;
+}
+
 .contact-cta .click-here-hint {
   position: absolute;
-  /* sit to the left of the 60%-wide button */
-  left: calc(50% - 30% - 130px);
-  top: 50%;
-  transform: translateY(-70%) rotate(-12deg);
+  /* sit to the top-right of the button */
+  right: calc(50% - 30% - 20px);
+  top: 15%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
+  align-items: flex-start;
+  gap: 0.2rem;
   color: var(--accent1);
   pointer-events: none;
   z-index: 3;
@@ -275,30 +278,28 @@ p.mn {
 
 .contact-cta .click-here-text {
   font-family: cursive, "formula-narrow", sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--accent1);
   white-space: nowrap;
-  letter-spacing: 0.02em;
-  /* slight extra tilt on the text alone */
+  letter-spacing: 0.04em;
   display: inline-block;
-  transform: rotate(-6deg);
-  text-shadow: 0 0 18px rgba(200, 240, 74, 0.35);
+  transform: rotate(8deg);
+  text-shadow: 0 0 18px rgba(200, 240, 74, 0.4);
+  padding-left: 1.5rem;
 }
 
 .contact-cta .click-here-arrow-svg {
-  width: 72px;
-  height: 56px;
+  width: 80px;
+  height: 60px;
   color: var(--accent1);
-  /* arrow points right-downward toward the button */
-  filter: drop-shadow(0 0 6px rgba(200, 240, 74, 0.4));
+  filter: drop-shadow(0 0 8px rgba(200, 240, 74, 0.45));
 }
 
 @keyframes clickHereFloat {
-  0%,100% { transform: translateY(-70%) rotate(-12deg); }
-  50%      { transform: translateY(-78%) rotate(-9deg); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-8px) rotate(2deg); }
 }
-
 
 @media (max-width: 1000px) {
   h1 { font-size: 2.5rem; }
@@ -334,7 +335,7 @@ p.mn {
   .contact-cta {
     height: auto;
     min-height: unset;
-    padding: 5em 1.25em;
+    padding: 6em 1.25em 4em;
   }
 
   .contact-cta .contact-button {
@@ -348,27 +349,25 @@ p.mn {
     box-shadow: 4px 4px 0px 2px var(--accent1);
   }
 
-  /* Arrow: float above the button center on mobile */
+  /* Arrow on mobile: top-right above the button */
   .contact-cta .click-here-hint {
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%) translateY(0) rotate(0deg);
-    flex-direction: row;
-    align-items: center;
-    gap: 0.6rem;
-    animation: clickHereFloatMobile 2.4s ease-in-out infinite;
+    right: 2rem;
+    top: 1rem;
+    transform: none;
+    align-items: flex-end;
+    gap: 0.1rem;
   }
 
-  /* Point arrow downward on mobile */
   .contact-cta .click-here-arrow-svg {
-    width: 44px;
-    height: 34px;
-    transform: rotate(80deg);
+    width: 55px;
+    height: 42px;
   }
 
   .contact-cta .click-here-text {
     font-size: 1rem;
-    transform: rotate(0deg);
+    padding-left: 0;
+    padding-right: 0.5rem;
+    transform: rotate(5deg);
   }
 
   @keyframes clickHereFloatMobile {
@@ -429,10 +428,21 @@ p.mn {
     font-size: 2rem;
   }
 
-  /* Arrow is too cramped on tiny screens — hide it */
+  /* Arrow on small mobile screens */
   .contact-cta .click-here-hint {
-    display: none;
+    right: 1.25rem;
+    top: 1.25rem;
   }
+
+  .contact-cta .click-here-text {
+    font-size: 0.85rem;
+  }
+
+  .contact-cta .click-here-arrow-svg {
+    width: 45px;
+    height: 35px;
+  }
+
 
 }
 /* ─── Pricing / Tickets ───────────────────────────────
