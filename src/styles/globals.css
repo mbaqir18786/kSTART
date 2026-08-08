@@ -256,7 +256,7 @@ p.mn {
   100% { transform: translateX(0%); }
 }
 
-/* ── Curved "Click Here" arrow hint (Top Right) ────────── */
+/* ── Curved "Click Here" arrow hint (Top Right - Static) ── */
 .contact-cta {
   position: relative;
 }
@@ -273,7 +273,6 @@ p.mn {
   color: var(--accent1);
   pointer-events: none;
   z-index: 3;
-  animation: clickHereFloat 2.4s ease-in-out infinite;
 }
 
 .contact-cta .click-here-text {
@@ -294,11 +293,6 @@ p.mn {
   height: 60px;
   color: var(--accent1);
   filter: drop-shadow(0 0 8px rgba(200, 240, 74, 0.45));
-}
-
-@keyframes clickHereFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50%      { transform: translateY(-8px) rotate(2deg); }
 }
 
 @media (max-width: 1000px) {
@@ -368,11 +362,6 @@ p.mn {
     padding-left: 0;
     padding-right: 0.5rem;
     transform: rotate(5deg);
-  }
-
-  @keyframes clickHereFloatMobile {
-    0%,100% { transform: translateX(-50%) translateY(0px); }
-    50%      { transform: translateX(-50%) translateY(-6px); }
   }
 
   .contact-cta .contact-text-small {
