@@ -203,12 +203,14 @@ export default function Contact() {
               <p><a href="mailto:alumni@somaiya.edu" target="_blank" rel="noreferrer">alumni@somaiya.edu</a></p>
             </div>
             <div className="contact-info-item">
-              <p className="label">Dates</p>
-              <p>03 Feb – 08 Feb 2026</p>
+              <p className="label">Social &amp; Community</p>
+              <p>
+                <a href="https://www.instagram.com/alumnicell_kjsce/" target="_blank" rel="noreferrer">Instagram</a> &nbsp;//&nbsp; <a href="https://chat.whatsapp.com/" target="_blank" rel="noreferrer">WhatsApp Group</a>
+              </p>
             </div>
             <div className="contact-info-item">
-              <p className="label">Venue</p>
-              <p>KJ Somaiya College of Engineering, Mumbai</p>
+              <p className="label">Dates &amp; Venue</p>
+              <p>03 Feb – 08 Feb 2026 // KJSCE, Mumbai</p>
             </div>
           </div>
         </div>

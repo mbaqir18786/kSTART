@@ -155,12 +155,15 @@ export default function Footer() {
             <p><a href="/#about">About</a></p>
           </div>
           <div className="footer-col">
-            <p>Connect</p>
+            <p>Alumni Cell</p>
             <p>
-              <a href="mailto:alumni@somaiya.edu" target="_blank" rel="noreferrer">Email Us</a>
+              <a href="https://www.instagram.com/alumnicell_kjsce/" target="_blank" rel="noreferrer">Instagram</a>
             </p>
             <p>
-              <a href="https://www.somaiya.edu" target="_blank" rel="noreferrer">KJ Somaiya</a>
+              <a href="https://chat.whatsapp.com/" target="_blank" rel="noreferrer">WhatsApp Group</a>
+            </p>
+            <p>
+              <a href="mailto:alumni@somaiya.edu" target="_blank" rel="noreferrer">Email Alumni Cell</a>
             </p>
           </div>
           <div className="footer-col">
@@ -169,7 +172,7 @@ export default function Footer() {
               <a href="https://kjsce.somaiya.edu" target="_blank" rel="noreferrer">KJSCE Official</a>
             </p>
             <p>
-              <Link to="/contact">Register Now</Link>
+              <a href="https://www.somaiya.edu" target="_blank" rel="noreferrer">Somaiya Vidyavihar</a>
             </p>
           </div>
         </div>
