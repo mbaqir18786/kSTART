@@ -142,38 +142,21 @@ export default function Footer() {
           <h1>KickStart</h1>
         </div>
         <div className="footer-row">
-          <div className="footer-col">
-            <p>Navigate</p>
-            <p><Link to="/">Home</Link></p>
-            <p><a href="/#events">Events</a></p>
-            <p><a href="/#schedule">Schedule</a></p>
-          </div>
-          <div className="footer-col">
-            <p>Participate</p>
-            <p><Link to="/contact">Register</Link></p>
-            <p><a href="/#highlights">Highlights</a></p>
-            <p><a href="/#about">About</a></p>
-          </div>
-          <div className="footer-col">
-            <p>Alumni Cell</p>
-            <p>
-              <a href="https://www.instagram.com/alumnicell_kjsce/" target="_blank" rel="noreferrer">Instagram</a>
-            </p>
-            <p>
-              <a href="https://chat.whatsapp.com/" target="_blank" rel="noreferrer">WhatsApp Group</a>
-            </p>
-            <p>
-              <a href="mailto:alumni@somaiya.edu" target="_blank" rel="noreferrer">Email Alumni Cell</a>
-            </p>
-          </div>
-          <div className="footer-col">
-            <p>Institute</p>
-            <p>
-              <a href="https://kjsce.somaiya.edu" target="_blank" rel="noreferrer">KJSCE Official</a>
-            </p>
-            <p>
-              <a href="https://www.somaiya.edu" target="_blank" rel="noreferrer">Somaiya Vidyavihar</a>
-            </p>
+          <div className="footer-col alumni-cell-col">
+            <p>Connect With Alumni Cell</p>
+            <div className="alumni-links">
+              <a href="https://www.instagram.com/alumnicell_kjsce/" target="_blank" rel="noreferrer">
+                Instagram
+              </a>
+              <span className="link-divider">•</span>
+              <a href="https://chat.whatsapp.com/" target="_blank" rel="noreferrer">
+                WhatsApp Group
+              </a>
+              <span className="link-divider">•</span>
+              <a href="mailto:alumni@somaiya.edu" target="_blank" rel="noreferrer">
+                Email Alumni Cell
+              </a>
+            </div>
           </div>
         </div>
         <div className="copyright-info">

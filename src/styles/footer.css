@@ -41,18 +41,18 @@ footer .footer-header h1 {
 }
 
 footer .footer-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2.5rem;
   width: 100%;
 }
 
-footer .footer-col {
+footer .footer-col.alumni-cell-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   text-align: center;
 }
 
@@ -60,35 +60,48 @@ footer .footer-col p:first-child {
   font-family: "supply-mono";
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   opacity: 0.5;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.25rem;
 }
 
-footer .footer-col p:not(:first-child) {
+footer .alumni-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+footer .alumni-links a {
   font-family: "formula-narrow";
-  font-size: 0.9rem;
-  opacity: 0.85;
-}
-
-footer .footer-col a,
-footer .copyright-info a {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--bg);
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-footer .footer-col a:hover,
-footer .copyright-info a:hover {
+footer .alumni-links a:hover {
   opacity: 1;
+  transform: translateY(-1px);
   text-decoration: underline;
+}
+
+footer .link-divider {
+  color: var(--bg);
+  opacity: 0.35;
+  font-size: 0.8rem;
 }
 
 footer .copyright-info {
   position: relative;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
@@ -96,6 +109,7 @@ footer .copyright-info {
   font-size: 0.75rem;
   opacity: 0.7;
 }
+
 
 footer .footer-symbols {
   position: absolute;
@@ -164,18 +178,15 @@ footer .explosion-particle-img {
   }
 
   footer .footer-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.75rem;
   }
 
-  footer .footer-col {
-    align-items: center;
-    text-align: center;
+  footer .alumni-links {
+    gap: 0.75rem 1rem;
   }
 
-  footer .footer-col p:not(:first-child) {
-    font-size: 0.85rem;
+  footer .alumni-links a {
+    font-size: 0.95rem;
   }
 
   footer .copyright-info {
@@ -195,14 +206,19 @@ footer .explosion-particle-img {
 }
 
 @media (max-width: 480px) {
-  footer .footer-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 0.75rem;
+  footer .alumni-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  footer .link-divider {
+    display: none;
   }
   
   footer .footer-header h1 {
     font-size: 2.75rem;
   }
 }
+
 
   
