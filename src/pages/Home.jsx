@@ -469,6 +469,32 @@ export default function Home() {
       </section>
 
       <section className="contact-cta" id="register">
+        {/* Curved click-here arrow */}
+        <div className="click-here-hint" aria-hidden="true">
+          <span className="click-here-text">click here!</span>
+          <svg
+            className="click-here-arrow-svg"
+            viewBox="0 0 90 70"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8 8 C 10 35, 45 48, 80 62"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              fill="none"
+            />
+            <path
+              d="M68 56 L 80 62 L 70 70"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+          </svg>
+        </div>
         <div className="contact-button">
           <Link to="/contact"></Link>
           <div className="contact-text-small">
