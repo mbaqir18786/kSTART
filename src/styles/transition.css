@@ -23,22 +23,28 @@
   }
   
   .transition-overlay.overlay-1 {
-    background-color: var(--accent1);
+    z-index: 5;
+    background-color: var(--accent1); /* #c8f04a - Electric Lime */
   }
   
   .transition-overlay.overlay-2 {
-    background-color: var(--accent1);
+    z-index: 4;
+    background-color: #ff3366; /* Vibrant Neon Magenta */
   }
   
   .transition-overlay.overlay-3 {
-    background-color: var(--accent2);
+    z-index: 3;
+    background-color: #3a86ef; /* Electric Cobalt Blue */
   }
   
   .transition-overlay.overlay-4 {
-    background-color: var(--accent3);
+    z-index: 2;
+    background-color: #ffbe0b; /* Warm Gold / Amber */
   }
   
   .transition-overlay.overlay-5 {
-    background-color: var(--accent4);
+    z-index: 1;
+    background-color: #121214; /* Deep Charcoal Dark Surface */
   }
+
   
