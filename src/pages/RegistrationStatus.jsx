@@ -325,26 +325,16 @@ export default function RegistrationStatus() {
 
                 <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                   <button
-                    onClick={() => {
-                      const utr = window.prompt("Enter your UPI Reference / UTR Number from your payment app:") || "";
-                      markAsPaid(utr);
-                    }}
-                    className="pricing-buy-btn"
-                    style={{ background: '#ffffff', color: '#09090b', cursor: 'pointer', border: '1px solid #ffffff' }}
-                  >
-                    ✓ I Have Paid / Enter UTR
-                  </button>
-                  <button
                     onClick={fetchStatus}
                     className="pricing-buy-btn"
                     style={{
-                      background: 'transparent',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      color: 'var(--fg)',
-                      cursor: 'pointer'
+                      background: '#ffffff',
+                      color: '#09090b',
+                      cursor: 'pointer',
+                      border: '1px solid #ffffff'
                     }}
                   >
-                    ↻ Refresh Status
+                    ↻ Check Status Now
                   </button>
                 </div>
               </div>
