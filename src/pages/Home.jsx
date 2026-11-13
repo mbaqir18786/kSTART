@@ -299,12 +299,6 @@ export default function Home() {
                 src={`${import.meta.env.BASE_URL}images/hero/img${i + 1}.jpg`} 
                 alt={`featured work ${i + 1}`} 
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                onError={(e) => {
-                  if (!e.target.dataset.fallback) {
-                    e.target.dataset.fallback = '1';
-                    e.target.src = `/images/hero/img${i + 1}.jpg`;
-                  }
-                }}
               />
             </div>
           ))}
@@ -318,12 +312,6 @@ export default function Home() {
               <img 
                 src={`${import.meta.env.BASE_URL}images/hero/img1.jpg`} 
                 alt="Interview Decrypted" 
-                onError={(e) => {
-                  if (!e.target.dataset.fallback) {
-                    e.target.dataset.fallback = '1';
-                    e.target.src = '/images/hero/img1.jpg';
-                  }
-                }}
               />
             </div>
             <h1 className="featured-title">Interview Decrypted</h1>
@@ -335,12 +323,6 @@ export default function Home() {
               <img 
                 src={`${import.meta.env.BASE_URL}images/hero/img2.jpg`} 
                 alt="Aptitude Test" 
-                onError={(e) => {
-                  if (!e.target.dataset.fallback) {
-                    e.target.dataset.fallback = '1';
-                    e.target.src = '/images/hero/img2.jpg';
-                  }
-                }}
               />
             </div>
             <h1 className="featured-title">Aptitude Test</h1>
@@ -352,12 +334,6 @@ export default function Home() {
               <img 
                 src={`${import.meta.env.BASE_URL}images/hero/img3.jpg`} 
                 alt="GD &amp; PI" 
-                onError={(e) => {
-                  if (!e.target.dataset.fallback) {
-                    e.target.dataset.fallback = '1';
-                    e.target.src = '/images/hero/img3.jpg';
-                  }
-                }}
               />
             </div>
             <h1 className="featured-title">GD &amp; PI</h1>

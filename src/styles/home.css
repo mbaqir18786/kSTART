@@ -175,7 +175,7 @@
     border: 1.5px solid rgba(255, 255, 255, 0.22);
     border-radius: 1rem;
     overflow: hidden;
-    display: block;
+    display: none;
     margin-bottom: 1.25rem;
     background: #141417;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
@@ -196,7 +196,7 @@
   
   .featured-work .featured-title-wrapper h1 {
     text-align: center;
-    transform: none;
+    transform: translateY(-0.5em);
     margin-bottom: 0.35rem;
   }
   
@@ -210,7 +210,6 @@
     transform-style: preserve-3d;
     perspective: 500px;
     pointer-events: none;
-    z-index: 1;
   }
   
   .featured-work .featured-img-card {

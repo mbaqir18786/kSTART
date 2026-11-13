@@ -33,6 +33,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/registration-status" element={<RegistrationStatus />} />
+        <Route path="/kSTART" element={<Home />} />
+        <Route path="/kSTART/contact" element={<Contact />} />
+        <Route path="/kSTART/registration-status" element={<RegistrationStatus />} />
+        <Route path="*" element={<Home />} />
       </Routes>
       <Footer />
     </ReactLenis>
