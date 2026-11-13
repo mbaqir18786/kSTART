@@ -1,13 +1,13 @@
 :root {
-  /* Dark Editorial — original approved palette */
-  --bg: #111110;       /* near-black with a hint of warmth */
-  --bg2: #1c1c1a;      /* slightly lighter dark for surfaces */
-  --fg: #f0ede6;       /* warm off-white */
-  --accent1: #c8f04a;  /* chartreuse / electric lime */
-  --accent2: #e8f5a3;  /* pale lime — softer tint */
-  --accent3: #2a2a27;  /* dark surface variant */
-  --accent4: #6b6b60;  /* muted stone for secondary text */
-  --glow-grad: linear-gradient(135deg, var(--accent1), var(--accent2));
+  /* Monochrome Titanium & Pure White on Deep Obsidian Black */
+  --bg: #09090b;       /* deep obsidian black */
+  --bg2: #141417;      /* sleek dark surface */
+  --fg: #fafafa;       /* pure crisp off-white */
+  --accent1: #ffffff;  /* pure stark white accent */
+  --accent2: #d4d4d8;  /* titanium silver tint */
+  --accent3: #222226;  /* dark surface variant */
+  --accent4: #82828b;  /* cool graphite secondary text */
+  --glow-grad: linear-gradient(135deg, #ffffff, #a1a1aa);
 }
 
 * {
@@ -284,7 +284,7 @@ p.mn {
   letter-spacing: 0.04em;
   display: inline-block;
   transform: rotate(8deg);
-  text-shadow: 0 0 18px rgba(200, 240, 74, 0.4);
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
   padding-left: 1.5rem;
 }
 
@@ -292,7 +292,7 @@ p.mn {
   width: 80px;
   height: 60px;
   color: var(--accent1);
-  filter: drop-shadow(0 0 8px rgba(200, 240, 74, 0.45));
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.45));
 }
 
 @media (max-width: 1000px) {
@@ -491,7 +491,7 @@ p.mn {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(200, 240, 74, 0.03);
+  background: rgba(255, 255, 255, 0.04);
   opacity: 0;
   transition: opacity 0.2s ease;
   pointer-events: none;
@@ -843,6 +843,171 @@ p.mn {
   
   .faq-question-row h2 {
     font-size: 1.25rem;
+  }
+}
+
+/* ─── Compact Creative Register CTA Section ─────────── */
+.register-cta-section {
+  position: relative;
+  width: 100vw;
+  padding: 3rem 1.5rem 4.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg);
+  z-index: 2;
+}
+
+.register-cta-container {
+  width: 100%;
+  max-width: 960px;
+  background: linear-gradient(180deg, #141417 0%, #0d0d0f 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1.75rem;
+  padding: 3.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.register-cta-container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  height: 250px;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.register-cta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+
+.cta-live-dot {
+  width: 7px;
+  height: 7px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ffffff;
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.cta-badge-text {
+  font-family: "supply-mono";
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent2);
+}
+
+.register-cta-headline {
+  font-family: "rader";
+  font-style: italic;
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.register-cta-sub {
+  font-family: "formula-narrow";
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: var(--fg);
+  opacity: 0.75;
+  max-width: 650px;
+  margin-bottom: 2.25rem;
+}
+
+.register-cta-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Small creative pill button */
+.register-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ffffff;
+  color: #09090b;
+  font-family: "supply-mono";
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.9rem 2.25rem;
+  border-radius: 100px;
+  border: 1px solid #ffffff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+}
+
+.register-pill-btn:hover {
+  background: transparent;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.25);
+}
+
+.register-pill-arrow {
+  display: inline-block;
+  font-size: 1.1rem;
+  transition: transform 0.25s ease;
+}
+
+.register-pill-btn:hover .register-pill-arrow {
+  transform: translateX(4px);
+}
+
+.register-cta-note {
+  font-family: "supply-mono";
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+  opacity: 0.55;
+}
+
+@media (max-width: 768px) {
+  .register-cta-section {
+    padding: 2.5rem 1rem 3.5rem;
+  }
+  .register-cta-container {
+    padding: 2.5rem 1.25rem;
+    border-radius: 1.25rem;
+  }
+  .register-cta-sub {
+    font-size: 1rem;
+  }
+  .register-pill-btn {
+    padding: 0.8rem 1.75rem;
+    font-size: 0.8rem;
   }
 }
 

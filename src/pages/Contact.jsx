@@ -1,331 +1,478 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TICKETS } from '../data/tickets';
 
 export default function Contact() {
-  const containerRef = useRef(null);
   const location = useLocation();
-  // Pre-selected ticket from "Buy Now" click (passed via router state)
-  const [selectedTicket, setSelectedTicket] = useState(location.state?.ticket || '');
+  const navigate = useNavigate();
 
+  // Selected ticket passes
+  const [selectedTicketIds, setSelectedTicketIds] = useState(() => {
+    if (location.state?.ticket) {
+      return [location.state.ticket];
+    }
+    return ['tech'];
+  });
+
+  const [ticketOptions, setTicketOptions] = useState(TICKETS);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [resumeName, setResumeName] = useState('');
+
+  // Form input state
+  const [formData, setFormData] = useState({
+    fullName: '',
+    rollNumber: '',
+    department: 'ce',
+    year: 'te',
+    collegeEmail: '',
+    phone: '',
+    whyKickstart: '',
+    terms: false
+  });
+
+  // Fetch ticket pricing
   useEffect(() => {
     window.scrollTo(0, 0);
-    const container = containerRef.current;
-    if (!container) return;
-
-    let isDesktop = window.innerWidth > 1000;
-    let animationId = null;
-    let mouseMoveListener = null;
-    let mouseX = 0, mouseY = 0;
-    let lastMouseX = 0, lastMouseY = 0;
-    let lastRemovalTime = 0;
-    let isCursorInContainer = false;
-    const trail = [];
-
-    const config = {
-      imageCount: 10,
-      imageLifespan: 800,
-      removalDelay: 60,
-      mouseThreshold: 80,
-      inDuration: 600,
-      inEasing: 'cubic-bezier(.07,.5,.5,1)',
-      outDuration: 400,
-      outEasing: 'cubic-bezier(.87, 0, .13, 1)',
-    };
-
-    const images = Array.from(
-      { length: config.imageCount },
-      (_, i) => `${import.meta.env.BASE_URL}images/hero/img${i + 1}.jpg`
-    );
-
-    // Preload images
-    images.forEach((path) => {
-      const img = new Image();
-      img.src = path;
-    });
-
-    // Floating elements
-    const floatingContainer = container.querySelector('.floating-elements');
-    if (floatingContainer) {
-      for (let i = 0; i < 12; i++) {
-        const element = document.createElement('div');
-        element.className = 'floating-element';
-        element.style.left = `${Math.random() * 100}%`;
-        element.style.animationDelay = `${Math.random() * 8}s`;
-        element.style.animationDuration = 8 + Math.random() * 4 + 's';
-        floatingContainer.appendChild(element);
-      }
-    }
-
-    const isInContainer = (x, y) => {
-      const rect = container.getBoundingClientRect();
-      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-    };
-
-    const hasMovedEnough = () => {
-      const distance = Math.sqrt(
-        Math.pow(mouseX - lastMouseX, 2) + Math.pow(mouseY - lastMouseY, 2)
-      );
-      return distance > config.mouseThreshold;
-    };
-
-    const createImage = () => {
-      const img = document.createElement('img');
-      img.classList.add('trail-img');
-      const randomIndex = Math.floor(Math.random() * images.length);
-      const rotation = (Math.random() - 0.5) * 40;
-      img.src = images[randomIndex];
-      const rect = container.getBoundingClientRect();
-      const relativeX = mouseX - rect.left;
-      const relativeY = mouseY - rect.top;
-      img.style.left = `${relativeX}px`;
-      img.style.top = `${relativeY}px`;
-      img.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(0)`;
-      img.style.transition = `transform ${config.inDuration}ms ${config.inEasing}`;
-      container.appendChild(img);
-      setTimeout(() => {
-        img.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(1)`;
-      }, 10);
-      trail.push({
-        element: img,
-        rotation,
-        removeTime: Date.now() + config.imageLifespan,
-      });
-    };
-
-    const removeOldImages = () => {
-      const now = Date.now();
-      if (now - lastRemovalTime < config.removalDelay || trail.length === 0) return;
-      const oldestImage = trail[0];
-      if (now >= oldestImage.removeTime) {
-        const imgToRemove = trail.shift();
-        imgToRemove.element.style.transition = `transform ${config.outDuration}ms ${config.outEasing}`;
-        imgToRemove.element.style.transform = `translate(-50%, -50%) rotate(${imgToRemove.rotation}deg) scale(0)`;
-        lastRemovalTime = now;
-        setTimeout(() => {
-          if (imgToRemove.element.parentNode) {
-            imgToRemove.element.parentNode.removeChild(imgToRemove.element);
-          }
-        }, config.outDuration);
-      }
-    };
-
-    const startAnimation = () => {
-      if (!isDesktop) return;
-      mouseMoveListener = (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        isCursorInContainer = isInContainer(mouseX, mouseY);
-        if (isCursorInContainer && hasMovedEnough()) {
-          lastMouseX = mouseX;
-          lastMouseY = mouseY;
-          createImage();
+    fetch('/api/kickstart/tickets')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data?.tickets && Array.isArray(data.tickets) && data.tickets.length > 0) {
+          setTicketOptions(data.tickets);
         }
-      };
-      document.addEventListener('mousemove', mouseMoveListener);
-      const animate = () => {
-        removeOldImages();
-        animationId = requestAnimationFrame(animate);
-      };
-      animate();
-    };
-
-    const stopAnimation = () => {
-      if (mouseMoveListener) {
-        document.removeEventListener('mousemove', mouseMoveListener);
-        mouseMoveListener = null;
-      }
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-      trail.forEach((item) => {
-        if (item.element.parentNode) item.element.parentNode.removeChild(item.element);
-      });
-      trail.length = 0;
-    };
-
-    const handleResize = () => {
-      const wasDesktop = isDesktop;
-      isDesktop = window.innerWidth > 1000;
-      if (isDesktop && !wasDesktop) startAnimation();
-      else if (!isDesktop && wasDesktop) stopAnimation();
-    };
-
-    window.addEventListener('resize', handleResize);
-    if (isDesktop) startAnimation();
-
-    return () => {
-      stopAnimation();
-      window.removeEventListener('resize', handleResize);
-    };
+      })
+      .catch(() => {});
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const submitBtn = form.querySelector('.submit-btn');
-    const successMessage = document.getElementById('successMessage');
-    submitBtn.textContent = 'Sending...';
-    submitBtn.disabled = true;
-    setTimeout(() => {
-      form.reset();
-      setSelectedTicket('');
-      submitBtn.textContent = 'Register Now';
-      submitBtn.disabled = false;
-      successMessage.style.display = 'block';
-      setTimeout(() => {
-        successMessage.style.display = 'none';
-      }, 5000);
-    }, 1500);
+  // Sync ticket passed via route state
+  useEffect(() => {
+    if (location.state?.ticket) {
+      setSelectedTicketIds((prev) =>
+        prev.includes(location.state.ticket) ? prev : [...prev, location.state.ticket]
+      );
+    }
+  }, [location.state?.ticket]);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
-  const selectedTicketObj = TICKETS.find(t => t.id === selectedTicket);
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setResumeName(file.name);
+    } else {
+      setResumeName('');
+    }
+  };
+
+  const removeResume = () => {
+    setResumeName('');
+    const input = document.getElementById('resume');
+    if (input) input.value = '';
+  };
+
+  const toggleTicket = (ticketId) => {
+    setSelectedTicketIds((prev) => {
+      if (prev.includes(ticketId)) {
+        if (prev.length === 1) return prev; // keep at least one
+        return prev.filter((id) => id !== ticketId);
+      } else {
+        return [...prev, ticketId];
+      }
+    });
+  };
+
+  const selectedTickets = ticketOptions.filter((t) => selectedTicketIds.includes(t.id));
+  const calculatedTotal = selectedTickets.reduce((sum, t) => sum + (t.price || 0), 0);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    if (selectedTicketIds.length === 0) {
+      setErrorMsg('Please select at least one interview track to continue.');
+      return;
+    }
+
+    if (!formData.terms) {
+      setErrorMsg('Please agree to the registration confirmation to proceed.');
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const res = await fetch('/api/kickstart/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          rollNumber: formData.rollNumber,
+          department: formData.department,
+          year: formData.year,
+          collegeEmail: formData.collegeEmail,
+          phone: formData.phone,
+          selectedTicketIds,
+          resumeName,
+          whyKickstart: formData.whyKickstart
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || `Registration failed with status ${res.status}`);
+      }
+
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        navigate(`/registration-status?orderId=${encodeURIComponent(data.orderId)}`);
+      }
+    } catch (err) {
+      console.error('[Registration Error]:', err);
+      setErrorMsg(err.message || 'Failed to submit registration. Please try again.');
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="page contact-page">
-      <section className="contact trail-container" ref={containerRef}>
-        <div className="floating-elements"></div>
-
-        {/* Left Column */}
-        <div className="contact-left">
-          <div className="contact-card-header-main">
-            <h1>Join KickStart</h1>
-            <p>
-              Secure your spot at KJ Somaiya College of Engineering's flagship
-              placement preparation event. Fill in your details below — alumni
-              sessions, aptitude tests, mock interviews and networking await you.
+      <section className="contact-section">
+        {/* Left Column: Event Context & Live Order Summary */}
+        <aside className="contact-left">
+          <div className="contact-header">
+            <span className="contact-eyebrow">✦ Official Drive · Alumni Cell KJSCE</span>
+            <h1>Candidate Registration</h1>
+            <p className="contact-lead">
+              Prepare for real campus placements with seasoned alumni mentors from Google,
+              Morgan Stanley, J.P. Morgan, and Microsoft. Verified registration with instant pass issuance.
             </p>
           </div>
+
+          <div className="editorial-pillars">
+            <div className="pillar-item">
+              <span className="pillar-num">01</span>
+              <div>
+                <h4>Direct Alumni Mentorship</h4>
+                <p>Personalized 1-on-1 feedback on resume, system design, and communication.</p>
+              </div>
+            </div>
+            <div className="pillar-item">
+              <span className="pillar-num">02</span>
+              <div>
+                <h4>Timed Exam Simulation</h4>
+                <p>Replicate actual placement test patterns under strict timed lab conditions.</p>
+              </div>
+            </div>
+            <div className="pillar-item">
+              <span className="pillar-num">03</span>
+              <div>
+                <h4>GD &amp; PI Grilling</h4>
+                <p>Group discussions and multi-round interviews with detailed candidate scorecards.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Live Order Pass Summary Card */}
+          <div className="live-summary-card">
+            <div className="summary-card-header">
+              <span className="summary-card-eyebrow">Pass Breakdown</span>
+              <span className="summary-card-count">{selectedTickets.length} Selected</span>
+            </div>
+
+            <div className="summary-passes-list">
+              {selectedTickets.map((t) => (
+                <div key={t.id} className="summary-pass-row">
+                  <div className="summary-pass-title">
+                    <span className="summary-dot" />
+                    <span>{t.name}</span>
+                  </div>
+                  <span className="summary-pass-price">₹{t.price}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="summary-total-row">
+              <span>Total Payable</span>
+              <span className="summary-total-amount">₹{calculatedTotal}.00</span>
+            </div>
+
+            <div className="summary-gateway-badge">
+              <span className="gateway-dot" />
+              <span>Processed securely via AC-Pay Portal</span>
+            </div>
+          </div>
+
           <div className="contact-info">
             <div className="contact-info-item">
-              <p className="label">Event Enquiries</p>
-              <p><a href="mailto:alumni@somaiya.edu" target="_blank" rel="noreferrer">alumni@somaiya.edu</a></p>
+              <span className="info-label">Event Schedule</span>
+              <p>03 Feb – 08 Feb 2026 · CCF &amp; Placement Hall</p>
             </div>
             <div className="contact-info-item">
-              <p className="label">Social &amp; Community</p>
+              <span className="info-label">Support &amp; Queries</span>
               <p>
-                <a href="https://www.instagram.com/alumnicell_kjsce/" target="_blank" rel="noreferrer">Instagram</a> &nbsp;//&nbsp; <a href="https://chat.whatsapp.com/" target="_blank" rel="noreferrer">WhatsApp Group</a>
+                <a href="mailto:alumni@somaiya.edu">alumni@somaiya.edu</a>
               </p>
             </div>
-            <div className="contact-info-item">
-              <p className="label">Dates &amp; Venue</p>
-              <p>03 Feb – 08 Feb 2026 // KJSCE, Mumbai</p>
-            </div>
           </div>
-        </div>
+        </aside>
 
-        {/* Form Column */}
-        <div className="contact-form-container">
+        {/* Right Column: Clean Unified Form */}
+        <main className="contact-form-container">
           <div className="form-header">
-            <h2>Register Now</h2>
-            <p>Complete all fields to confirm your participation</p>
+            <h2>Select Tracks &amp; Register</h2>
+            <p>Customize your preparation track and enter your academic details.</p>
           </div>
-          <form className="contact-form" id="contactForm" onSubmit={handleSubmit}>
 
-            {/* Ticket selector — auto-populated when coming from Buy Now */}
-            <div className="form-group full-width">
-              <label htmlFor="ticketType">Ticket Pass Type</label>
-              <select
-                id="ticketType"
-                name="ticketType"
-                required
-                value={selectedTicket}
-                onChange={(e) => setSelectedTicket(e.target.value)}
-              >
-                <option value="">Select a ticket pass</option>
-                {TICKETS.map(t => (
-                  <option key={t.id} value={t.id}>
-                    {t.name} — ₹{t.price} ({t.tags})
-                  </option>
-                ))}
-              </select>
-              {selectedTicketObj && (
-                <div className="selected-ticket-note">
-                  <span>✦ {selectedTicketObj.desc}</span>
-                  <button type="button" className="clear-ticket" onClick={() => setSelectedTicket('')}>
-                    Change
-                  </button>
+          {errorMsg && (
+            <div className="form-error-banner" role="alert">
+              <span className="error-icon">!</span>
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
+          <form className="contact-form" onSubmit={handleSubmit}>
+            {/* Step 1: Track Selection */}
+            <div className="form-block">
+              <div className="form-block-header">
+                <h3>Select Interview Passes</h3>
+                <span className="form-block-hint">Choose one or multiple tracks</span>
+              </div>
+
+              <div className="tracks-grid">
+                {ticketOptions.map((t) => {
+                  const isSelected = selectedTicketIds.includes(t.id);
+                  return (
+                    <div
+                      key={t.id}
+                      onClick={() => toggleTicket(t.id)}
+                      className={`track-card ${isSelected ? 'active' : ''}`}
+                    >
+                      <div className="track-card-top">
+                        <span className="track-badge">{t.badge || 'Track'}</span>
+                        <div className={`track-checkbox-pill ${isSelected ? 'checked' : ''}`}>
+                          {isSelected ? '✓ Selected' : '+ Add'}
+                        </div>
+                      </div>
+
+                      <h4 className="track-name">{t.name}</h4>
+                      <p className="track-tags">{t.tags}</p>
+                      <p className="track-desc">{t.desc}</p>
+
+                      <div className="track-card-bottom">
+                        <span className="track-price-label">Registration Pass</span>
+                        <span className="track-price">₹{t.price}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Step 2: Academic & Personal Details */}
+            <div className="form-block">
+              <div className="form-block-header">
+                <h3>Candidate Details</h3>
+                <span className="form-block-hint">Used for attendance and mentor allocation</span>
+              </div>
+
+              <div className="form-grid">
+                <div className="form-group full-width">
+                  <label htmlFor="fullName">Full Name</label>
+                  <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="e.g. Atharva Kulkarni"
+                    required
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    autoComplete="name"
+                  />
                 </div>
-              )}
-            </div>
 
-            <div className="form-group full-width">
-              <label htmlFor="fullName">Full Name</label>
-              <input type="text" id="fullName" name="fullName" placeholder="e.g. Priya Sharma" required />
-            </div>
+                <div className="form-group">
+                  <label htmlFor="rollNumber">Roll Number</label>
+                  <input
+                    type="text"
+                    id="rollNumber"
+                    name="rollNumber"
+                    placeholder="e.g. 16010121045"
+                    required
+                    value={formData.rollNumber}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="rollNumber">Roll Number</label>
-                <input type="text" id="rollNumber" name="rollNumber" placeholder="e.g. 2021CE001" required />
+                <div className="form-group">
+                  <label htmlFor="department">Department</label>
+                  <select
+                    id="department"
+                    name="department"
+                    required
+                    value={formData.department}
+                    onChange={handleInputChange}
+                  >
+                    <option value="ce">Computer Engineering</option>
+                    <option value="it">Information Technology</option>
+                    <option value="extc">Electronics &amp; Telecommunication</option>
+                    <option value="aids">AI &amp; Data Science</option>
+                    <option value="aiml">AI &amp; Machine Learning</option>
+                    <option value="mech">Mechanical Engineering</option>
+                    <option value="civil">Civil Engineering</option>
+                    <option value="ra">Robotics &amp; Automation</option>
+                    <option value="elex">Electronics Engineering</option>
+                    <option value="other">Other Engineering Branch</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="year">Year of Study</label>
+                  <select
+                    id="year"
+                    name="year"
+                    required
+                    value={formData.year}
+                    onChange={handleInputChange}
+                  >
+                    <option value="fe">First Year (FE)</option>
+                    <option value="se">Second Year (SE)</option>
+                    <option value="te">Third Year (TE)</option>
+                    <option value="be">Final Year (BE)</option>
+                    <option value="pg">Post Graduate (PG)</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="collegeEmail">Somaiya Email ID</label>
+                  <input
+                    type="email"
+                    id="collegeEmail"
+                    name="collegeEmail"
+                    placeholder="student@somaiya.edu"
+                    required
+                    value={formData.collegeEmail}
+                    onChange={handleInputChange}
+                    autoComplete="email"
+                  />
+                </div>
+
+                <div className="form-group full-width">
+                  <label htmlFor="phone">Contact Number (WhatsApp)</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="+91 98765 43210"
+                    required
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    autoComplete="tel"
+                  />
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="department">Department</label>
-                <select id="department" name="department" required>
-                  <option value="">Select department</option>
-                  <option value="ce">Computer Engineering</option>
-                  <option value="it">Information Technology</option>
-                  <option value="extc">Electronics &amp; Telecom</option>
-                  <option value="mech">Mechanical Engineering</option>
-                  <option value="civil">Civil Engineering</option>
-                  <option value="elex">Electronics Engineering</option>
-                  <option value="aids">AI &amp; Data Science</option>
-                  <option value="aiml">AI &amp; Machine Learning</option>
-                  <option value="other">Other</option>
-                </select>
+            </div>
+
+            {/* Step 3: Preparation & Resume */}
+            <div className="form-block">
+              <div className="form-block-header">
+                <h3>Preparation Profile</h3>
+                <span className="form-block-hint">Helps mentors tailor your mock session</span>
+              </div>
+
+              <div className="form-grid">
+                <div className="form-group full-width">
+                  <label htmlFor="resume">Resume (PDF or DOC)</label>
+                  <div className="file-dropzone">
+                    <input
+                      type="file"
+                      id="resume"
+                      name="resume"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleFileChange}
+                      className="file-native-input"
+                    />
+                    <div className="file-dropzone-inner">
+                      <span className="dropzone-icon">📄</span>
+                      <div className="dropzone-text">
+                        <span className="dropzone-title">Click to upload or drag resume</span>
+                        <span className="dropzone-sub">Supported formats: PDF, DOC, DOCX up to 10MB</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {resumeName && (
+                    <div className="resume-tag">
+                      <span className="resume-tag-name">✓ {resumeName}</span>
+                      <button
+                        type="button"
+                        onClick={removeResume}
+                        className="resume-remove-btn"
+                        title="Remove file"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="form-group full-width">
+                  <label htmlFor="whyKickstart">
+                    Target Domains &amp; Focus Areas <span className="label-optional">(Optional)</span>
+                  </label>
+                  <textarea
+                    id="whyKickstart"
+                    name="whyKickstart"
+                    placeholder="e.g. Targeting Software Engineer roles at FinTech firms; want mentors to focus on Graph algorithms, System Design fundamentals, and core behavioral questions."
+                    rows={3}
+                    value={formData.whyKickstart}
+                    onChange={handleInputChange}
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="year">Year</label>
-                <select id="year" name="year" required>
-                  <option value="">Select year</option>
-                  <option value="fe">First Year (FE)</option>
-                  <option value="se">Second Year (SE)</option>
-                  <option value="te">Third Year (TE)</option>
-                  <option value="be">Final Year (BE)</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label htmlFor="collegeEmail">College Email</label>
-                <input type="email" id="collegeEmail" name="collegeEmail" placeholder="student@somaiya.edu" required />
-              </div>
-            </div>
-
-            <div className="form-group full-width">
-              <label htmlFor="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required />
-            </div>
-
-            <div className="form-group full-width">
-              <label htmlFor="resume">Resume Upload (PDF / DOC)</label>
-              <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" />
-            </div>
-
-            <div className="form-group full-width">
-              <label htmlFor="whyKickstart">Why do you want to join KickStart?</label>
-              <textarea id="whyKickstart" name="whyKickstart" placeholder="Tell us why you want to join KickStart..." required></textarea>
-            </div>
-
-            <div className="form-group full-width form-group-checkbox">
-              <label className="checkbox-label" htmlFor="terms">
-                <input type="checkbox" id="terms" name="terms" required />
-                <span>
-                  I agree to the <a href="#" target="_blank" rel="noreferrer">Terms &amp; Conditions</a> and confirm that all information provided is accurate.
+            {/* Step 4: Terms & Proceed */}
+            <div className="form-checkout-footer">
+              <label className="checkbox-container" htmlFor="terms">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  required
+                  checked={formData.terms}
+                  onChange={handleInputChange}
+                />
+                <span className="custom-check" />
+                <span className="checkbox-text">
+                  I confirm that all candidate details are accurate and agree to proceed to AC-Pay to complete my pass registration.
                 </span>
               </label>
-            </div>
 
-            <button type="submit" className="submit-btn" id="registerBtn">
-              Register Now
-            </button>
-            <div className="success-message" id="successMessage" style={{ display: 'none' }}>
-              <p>🎉 Registration submitted! We'll confirm your spot within 24 hours at your college email.</p>
+              <button
+                type="submit"
+                className="checkout-submit-btn"
+                disabled={submitting}
+              >
+                {submitting ? (
+                  <span>Generating Secure AC-Pay Session...</span>
+                ) : (
+                  <span>Proceed to Payment · ₹{calculatedTotal}.00 →</span>
+                )}
+              </button>
+
+              <p className="checkout-security-note">
+                ✦ Official Alumni Cell verification · Passes emailed immediately upon payment completion
+              </p>
             </div>
           </form>
-        </div>
+        </main>
       </section>
     </div>
   );

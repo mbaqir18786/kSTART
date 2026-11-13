@@ -295,7 +295,17 @@ export default function Home() {
           {/* Dynamically created originally, now static for React */}
           {[...Array(10)].map((_, i) => (
             <div key={i} className={`featured-img-card featured-img-card-${i + 1}`}>
-              <img src={`${import.meta.env.BASE_URL}images/hero/img${i + 1}.jpg`} alt={`featured work ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img 
+                src={`${import.meta.env.BASE_URL}images/hero/img${i + 1}.jpg`} 
+                alt={`featured work ${i + 1}`} 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                onError={(e) => {
+                  if (!e.target.dataset.fallback) {
+                    e.target.dataset.fallback = '1';
+                    e.target.src = `/images/hero/img${i + 1}.jpg`;
+                  }
+                }}
+              />
             </div>
           ))}
         </div>
@@ -305,7 +315,16 @@ export default function Home() {
           </div>
           <div className="featured-title-wrapper">
             <div className="featured-title-img">
-              <img src={`${import.meta.env.BASE_URL}images/hero/img1.jpg`} alt="Interview Decrypted" />
+              <img 
+                src={`${import.meta.env.BASE_URL}images/hero/img1.jpg`} 
+                alt="Interview Decrypted" 
+                onError={(e) => {
+                  if (!e.target.dataset.fallback) {
+                    e.target.dataset.fallback = '1';
+                    e.target.src = '/images/hero/img1.jpg';
+                  }
+                }}
+              />
             </div>
             <h1 className="featured-title">Interview Decrypted</h1>
             <p className="mn event-meta">03 Feb (Tue) &nbsp;·&nbsp; Seminar Hall B-113</p>
@@ -313,7 +332,16 @@ export default function Home() {
           </div>
           <div className="featured-title-wrapper">
             <div className="featured-title-img">
-              <img src={`${import.meta.env.BASE_URL}images/hero/img2.jpg`} alt="Aptitude Test" />
+              <img 
+                src={`${import.meta.env.BASE_URL}images/hero/img2.jpg`} 
+                alt="Aptitude Test" 
+                onError={(e) => {
+                  if (!e.target.dataset.fallback) {
+                    e.target.dataset.fallback = '1';
+                    e.target.src = '/images/hero/img2.jpg';
+                  }
+                }}
+              />
             </div>
             <h1 className="featured-title">Aptitude Test</h1>
             <p className="mn event-meta">04–05 Feb (Wed–Thu) &nbsp;·&nbsp; CCF / Placement Office</p>
@@ -321,7 +349,16 @@ export default function Home() {
           </div>
           <div className="featured-title-wrapper">
             <div className="featured-title-img">
-              <img src={`${import.meta.env.BASE_URL}images/hero/img3.jpg`} alt="GD &amp; PI" />
+              <img 
+                src={`${import.meta.env.BASE_URL}images/hero/img3.jpg`} 
+                alt="GD &amp; PI" 
+                onError={(e) => {
+                  if (!e.target.dataset.fallback) {
+                    e.target.dataset.fallback = '1';
+                    e.target.src = '/images/hero/img3.jpg';
+                  }
+                }}
+              />
             </div>
             <h1 className="featured-title">GD &amp; PI</h1>
             <p className="mn event-meta">07–08 Feb (Sat–Sun) &nbsp;·&nbsp; 10 AM – 5 PM</p>
@@ -342,7 +379,6 @@ export default function Home() {
         <div className="featured-work-footer">
           <p className="mn">Event Programme [ 03 ]</p>
           <p className="mn">///////////////////</p>
-          <p className="mn"><Link to="/contact">Register Now →</Link></p>
         </div>
       </section>
 
@@ -468,36 +504,25 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="contact-cta" id="register">
-        {/* Curved click-here arrow pointing from top-right */}
-        <div className="click-here-hint" aria-hidden="true">
-          <span className="click-here-text">click here!</span>
-          <svg
-            className="click-here-arrow-svg"
-            viewBox="0 0 90 70"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M80 10 C 85 48, 45 65, 15 58"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              fill="none"
-            />
-            <path
-              d="M26 48 L 15 58 L 26 64"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-            />
-          </svg>
-        </div>
-        <div className="contact-button">
-          <Link to="/contact"></Link>
-          <div className="contact-text-large"><h1>Register Now</h1></div>
+      <section className="register-cta-section" id="register">
+        <div className="register-cta-container">
+          <div className="register-cta-badge">
+            <span className="cta-live-dot" />
+            <span className="cta-badge-text">KickStart 2026 // Limited Capacity</span>
+          </div>
+          <h2 className="register-cta-headline">
+            Ready to Accelerate Your Career?
+          </h2>
+          <p className="register-cta-sub">
+            Join alumni keynotes, mock interview drives, and aptitude practice sessions at KJSCE.
+          </p>
+          <div className="register-cta-actions">
+            <Link to="/contact" className="register-pill-btn">
+              <span>Register Now</span>
+              <span className="register-pill-arrow">→</span>
+            </Link>
+            <span className="register-cta-note">✦ Passes from ₹30 · All Engineering Branches Eligible</span>
+          </div>
         </div>
       </section>
     </div>

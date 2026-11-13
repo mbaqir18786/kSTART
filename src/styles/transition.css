@@ -24,27 +24,27 @@
   
   .transition-overlay.overlay-1 {
     z-index: 5;
-    background-color: var(--accent1); /* #c8f04a - Electric Lime */
+    background-color: #ffffff; /* Pure Stark White */
   }
   
   .transition-overlay.overlay-2 {
     z-index: 4;
-    background-color: #ff3366; /* Vibrant Neon Magenta */
+    background-color: #d4d4d8; /* Titanium Silver */
   }
   
   .transition-overlay.overlay-3 {
     z-index: 3;
-    background-color: #3a86ef; /* Electric Cobalt Blue */
+    background-color: #71717a; /* Cool Graphite */
   }
   
   .transition-overlay.overlay-4 {
     z-index: 2;
-    background-color: #ffbe0b; /* Warm Gold / Amber */
+    background-color: #27272a; /* Slate Charcoal */
   }
   
   .transition-overlay.overlay-5 {
     z-index: 1;
-    background-color: #121214; /* Deep Charcoal Dark Surface */
+    background-color: #09090b; /* Deep Obsidian Black */
   }
 
   

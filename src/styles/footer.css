@@ -4,12 +4,13 @@ footer {
   width: 100vw;
   height: auto;
   min-height: auto;
-  color: var(--bg);
-  padding: 1.5rem 2rem 2rem;
+  color: var(--fg);
+  padding: 1.5rem 2rem 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  background-color: var(--bg);
 }
 
 footer .footer-container {
@@ -17,13 +18,15 @@ footer .footer-container {
   width: 100%;
   max-width: 1400px;
   height: auto;
-  background-color: var(--fg);
-  padding: 3rem 3rem 2rem;
+  background-color: var(--bg2);
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  padding: 3.5rem 3rem 2.5rem;
   border-radius: 2em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
 }
 
 footer .footer-header {
@@ -37,7 +40,7 @@ footer .footer-header h1 {
   line-height: 0.95;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: var(--bg);
+  color: var(--fg);
 }
 
 footer .footer-row {
@@ -79,20 +82,21 @@ footer .alumni-links a {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--bg);
+  color: var(--fg);
   text-decoration: none;
   opacity: 0.85;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
 footer .alumni-links a:hover {
   opacity: 1;
+  color: #ffffff;
   transform: translateY(-1px);
   text-decoration: underline;
 }
 
 footer .link-divider {
-  color: var(--bg);
+  color: var(--fg);
   opacity: 0.35;
   font-size: 0.8rem;
 }
@@ -104,10 +108,11 @@ footer .copyright-info {
   justify-content: center;
   align-items: center;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   gap: 1rem;
   font-size: 0.75rem;
-  opacity: 0.7;
+  color: var(--fg);
+  opacity: 0.6;
 }
 
 

@@ -1,42 +1,41 @@
+/**
+ * KickStart 2027 — Official Ticket Passes
+ * Three core interview tracks offered by Alumni Cell KJSSE:
+ * 1. Technical Interview
+ * 2. Non-Technical Interview
+ * 3. Mock Interview
+ *
+ * NOTE: Prices are configurable defaults for development / testing.
+ * The backend server strictly recalculates and validates all totals.
+ */
 export const TICKETS = [
   {
-    id: 'basic',
-    name: 'Basic Tier',
-    price: 30,
-    desc: 'Aptitude + GD + 1 Personal Interview',
-    tags: 'Core / Tech / Non-Tech',
-    badge: 'Available',
-  },
-  {
-    id: 'standard',
-    name: 'Standard Tier',
-    price: 40,
-    desc: 'Aptitude + GD + 2 Personal Interviews',
-    tags: 'Core + Non-Tech',
-    badge: 'Available',
-  },
-  {
-    id: 'tech-pro',
-    name: 'Tech Pro',
-    price: 50,
-    desc: 'Aptitude + GD + 2 Personal Interviews',
-    tags: 'Core + Tech',
+    id: 'tech',
+    name: 'Technical Interview',
+    price: 50, // Default placeholder: ₹50
+    desc: 'Deep-dive domain interview with alumni engineers covering Data Structures, Algorithms, System Design & Core Branch Concepts.',
+    tags: 'Core / Tech Domains',
     badge: 'Popular',
+    icon: '💻'
   },
   {
-    id: 'dual-domain',
-    name: 'Dual Domain',
-    price: 60,
-    desc: 'Aptitude + GD + 2 Personal Interviews',
-    tags: 'Tech + Non-Tech',
-    badge: 'Available',
+    id: 'non-tech',
+    name: 'Non-Technical Interview',
+    price: 40, // Default placeholder: ₹40
+    desc: 'Managerial & HR round preparation focusing on behavioral questions, case studies, situational judgment and leadership scenarios.',
+    tags: 'Consulting / Product / HR',
+    badge: 'Essential',
+    icon: '📊'
   },
   {
-    id: 'all-rounder',
-    name: 'All Rounder',
-    price: 80,
-    desc: 'Aptitude + GD + 3 Personal Interviews',
-    tags: 'Tech + Core + Non-Tech',
-    badge: 'Best Value',
-  },
+    id: 'mock',
+    name: 'Mock Interview',
+    price: 30, // Default placeholder: ₹30
+    desc: 'Full-simulation trial interview with real-time alumni feedback, scorecards, resume vetting and body language review.',
+    tags: 'Aptitude + Simulation + GD',
+    badge: 'Recommended',
+    icon: '🎯'
+  }
 ];
+
+export const TICKET_MAP = Object.fromEntries(TICKETS.map(t => [t.id, t]));

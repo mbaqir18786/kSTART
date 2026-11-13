@@ -1,13 +1,16 @@
 {
     "name": "KICKSTART",
     "version": "1.0.0",
+    "type": "module",
     "description": "2027",
     "main": "index.js",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "host": "vite --host"
+        "host": "vite --host",
+        "server": "node server/index.js",
+        "start": "node server/index.js"
     },
     "keywords": [],
     "author": "M Baqir",
