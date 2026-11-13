@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link, useSearchParams } from 'react-router-dom';
+import { sendToGoogleSheets } from '../services/sheets';
 
 export default function RegistrationStatus() {
   const [searchParams] = useSearchParams();
@@ -23,18 +24,56 @@ export default function RegistrationStatus() {
 
     try {
       const res = await fetch(`/api/kickstart/status/${encodeURIComponent(orderId)}`);
-      if (!res.ok) {
-        const errJson = await res.json().catch(() => ({}));
-        throw new Error(errJson.error || `HTTP error ${res.status}`);
+      if (res.ok) {
+        const data = await res.json();
+        setStatusData(data);
+        setError(null);
+        setLoading(false);
+        return;
       }
-      const data = await res.json();
-      setStatusData(data);
-      setError(null);
-    } catch (err) {
-      setError(err.message || 'Unable to fetch registration status.');
-    } finally {
-      setLoading(false);
+    } catch (apiErr) {
+      // Backend offline or running purely as static SPA on Vercel
     }
+
+    // Client-side fallback from localStorage
+    try {
+      const saved = localStorage.getItem(`order_${orderId}`);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setStatusData(parsed);
+        setError(null);
+        setLoading(false);
+        return;
+      }
+    } catch (storageErr) {
+      // ignore
+    }
+
+    setLoading(false);
+    setError('Order reference not found. If you just registered, please verify your Order ID.');
+  };
+
+  const markAsPaid = async (utrInput = '') => {
+    const utrRef = utrInput || `UPI-${Date.now().toString(36).toUpperCase()}`;
+    const updated = {
+      ...(statusData || {}),
+      paymentStatus: 'VERIFIED_PAID',
+      utr: utrRef
+    };
+
+    setStatusData(updated);
+
+    try {
+      localStorage.setItem(`order_${orderId}`, JSON.stringify(updated));
+    } catch (err) {}
+
+    // Sync "PAID" status to Google Sheets
+    await sendToGoogleSheets({
+      action: 'UPDATE_PAYMENT',
+      orderId: orderId,
+      paid: 'PAID',
+      utr: utrRef
+    });
   };
 
   useEffect(() => {
@@ -281,19 +320,28 @@ export default function RegistrationStatus() {
                   </div>
                 )}
 
-                <div style={{ marginTop: '1.5rem' }}>
+                <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <button
+                    onClick={() => {
+                      const utr = window.prompt("Enter your UPI Reference / UTR Number from your payment app:") || "";
+                      markAsPaid(utr);
+                    }}
+                    className="pricing-buy-btn"
+                    style={{ background: '#ffffff', color: '#09090b', cursor: 'pointer', border: '1px solid #ffffff' }}
+                  >
+                    ✓ I Have Paid / Enter UTR
+                  </button>
                   <button
                     onClick={fetchStatus}
+                    className="pricing-buy-btn"
                     style={{
                       background: 'transparent',
-                      border: 'none',
-                      color: 'var(--accent1)',
-                      textDecoration: 'underline',
-                      cursor: 'pointer',
-                      fontSize: '0.9rem'
+                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                      color: 'var(--fg)',
+                      cursor: 'pointer'
                     }}
                   >
-                    ↻ Refresh Status Now
+                    ↻ Refresh Status
                   </button>
                 </div>
               </div>

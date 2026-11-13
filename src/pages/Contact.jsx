@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TICKETS } from '../data/tickets';
+import { sendToGoogleSheets } from '../services/sheets';
 
 export default function Contact() {
   const location = useLocation();
@@ -106,34 +107,76 @@ export default function Contact() {
 
     setSubmitting(true);
 
+    const generatedOrderId = `KS26-${formData.department.toUpperCase()}-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    const registrationData = {
+      action: 'REGISTER',
+      orderId: generatedOrderId,
+      fullName: formData.fullName,
+      rollNumber: formData.rollNumber,
+      department: formData.department.toUpperCase(),
+      year: formData.year.toUpperCase(),
+      collegeEmail: formData.collegeEmail,
+      phone: formData.phone,
+      selectedTicketNames: selectedTickets.map((t) => t.name).join(', '),
+      amountRupees: calculatedTotal,
+      resumeName: resumeName || 'Not uploaded',
+      whyKickstart: formData.whyKickstart || '',
+      paid: 'NOT PAID'
+    };
+
     try {
-      const res = await fetch('/api/kickstart/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fullName: formData.fullName,
+      // 1. Sync to Google Sheets
+      await sendToGoogleSheets(registrationData);
+
+      // Save locally as fallback for client-side status review
+      try {
+        localStorage.setItem(`order_${generatedOrderId}`, JSON.stringify({
+          orderId: generatedOrderId,
+          studentName: formData.fullName,
           rollNumber: formData.rollNumber,
           department: formData.department,
           year: formData.year,
-          collegeEmail: formData.collegeEmail,
-          phone: formData.phone,
-          selectedTicketIds,
-          resumeName,
-          whyKickstart: formData.whyKickstart
-        })
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || `Registration failed with status ${res.status}`);
+          ticketNames: selectedTickets.map((t) => t.name).join(', '),
+          amountRupees: calculatedTotal,
+          paymentStatus: 'PENDING_PAYMENT'
+        }));
+      } catch (storageErr) {
+        // localStorage ignore
       }
 
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
-      } else {
-        navigate(`/registration-status?orderId=${encodeURIComponent(data.orderId)}`);
+      // 2. Also attempt backend API if server is running
+      try {
+        const res = await fetch('/api/kickstart/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: formData.fullName,
+            rollNumber: formData.rollNumber,
+            department: formData.department,
+            year: formData.year,
+            collegeEmail: formData.collegeEmail,
+            phone: formData.phone,
+            selectedTicketIds,
+            resumeName,
+            whyKickstart: formData.whyKickstart,
+            orderId: generatedOrderId
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.checkoutUrl) {
+            window.location.href = data.checkoutUrl;
+            return;
+          }
+        }
+      } catch (apiErr) {
+        // Server API not deployed or offline, proceed with client-side order flow
       }
+
+      // 3. Navigate to registration status page
+      navigate(`/registration-status?orderId=${encodeURIComponent(generatedOrderId)}`);
     } catch (err) {
       console.error('[Registration Error]:', err);
       setErrorMsg(err.message || 'Failed to submit registration. Please try again.');
