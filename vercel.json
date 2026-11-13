@@ -1,6 +1,13 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/kickstart/:path*",
+      "destination": "https://ac-pay-gateway.onrender.com/api/kickstart/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
   

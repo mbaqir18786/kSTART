@@ -35,7 +35,7 @@ export default function Contact() {
   // Fetch ticket pricing if a backend is configured
   useEffect(() => {
     window.scrollTo(0, 0);
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://ac-pay-gateway.onrender.com';
     if (backendUrl) {
       fetch(`${backendUrl}/api/kickstart/tickets`)
         .then((r) => (r.ok ? r.json() : null))
@@ -149,7 +149,7 @@ export default function Contact() {
       }
 
       // 2. Also attempt backend API if a backend server URL is configured
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://ac-pay-gateway.onrender.com';
       if (backendUrl) {
         try {
           const res = await fetch(`${backendUrl}/api/kickstart/register`, {

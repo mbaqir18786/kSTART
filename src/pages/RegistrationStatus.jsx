@@ -22,7 +22,7 @@ export default function RegistrationStatus() {
       return;
     }
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://ac-pay-gateway.onrender.com';
     if (backendUrl) {
       try {
         const res = await fetch(`${backendUrl}/api/kickstart/status/${encodeURIComponent(orderId)}`);
