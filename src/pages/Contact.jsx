@@ -32,17 +32,20 @@ export default function Contact() {
     terms: false
   });
 
-  // Fetch ticket pricing
+  // Fetch ticket pricing if a backend is configured
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetch('/api/kickstart/tickets')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (data?.tickets && Array.isArray(data.tickets) && data.tickets.length > 0) {
-          setTicketOptions(data.tickets);
-        }
-      })
-      .catch(() => {});
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    if (backendUrl) {
+      fetch(`${backendUrl}/api/kickstart/tickets`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (data?.tickets && Array.isArray(data.tickets) && data.tickets.length > 0) {
+            setTicketOptions(data.tickets);
+          }
+        })
+        .catch(() => {});
+    }
   }, []);
 
   // Sync ticket passed via route state
@@ -145,34 +148,37 @@ export default function Contact() {
         // localStorage ignore
       }
 
-      // 2. Also attempt backend API if server is running
-      try {
-        const res = await fetch('/api/kickstart/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fullName: formData.fullName,
-            rollNumber: formData.rollNumber,
-            department: formData.department,
-            year: formData.year,
-            collegeEmail: formData.collegeEmail,
-            phone: formData.phone,
-            selectedTicketIds,
-            resumeName,
-            whyKickstart: formData.whyKickstart,
-            orderId: generatedOrderId
-          })
-        });
+      // 2. Also attempt backend API if a backend server URL is configured
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      if (backendUrl) {
+        try {
+          const res = await fetch(`${backendUrl}/api/kickstart/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fullName: formData.fullName,
+              rollNumber: formData.rollNumber,
+              department: formData.department,
+              year: formData.year,
+              collegeEmail: formData.collegeEmail,
+              phone: formData.phone,
+              selectedTicketIds,
+              resumeName,
+              whyKickstart: formData.whyKickstart,
+              orderId: generatedOrderId
+            })
+          });
 
-        if (res.ok) {
-          const data = await res.json();
-          if (data.checkoutUrl) {
-            window.location.href = data.checkoutUrl;
-            return;
+          if (res.ok) {
+            const data = await res.json();
+            if (data?.checkoutUrl) {
+              window.location.href = data.checkoutUrl;
+              return;
+            }
           }
+        } catch (apiErr) {
+          // Backend API unreachable, proceed with client status flow
         }
-      } catch (apiErr) {
-        // Server API not deployed or offline, proceed with client-side order flow
       }
 
       // 3. Navigate to registration status page

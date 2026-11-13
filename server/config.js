@@ -17,6 +17,7 @@ export const CONFIG = {
   acPayApiUrl: (process.env.AC_PAY_API_URL || process.env.BASE_PAYMENT_API_URL || 'http://127.0.0.1:6100').replace(/\/+$/, ''),
   acPayMerchantId: process.env.AC_PAY_MERCHANT_ID || '00000000-0000-0000-0000-000000000001',
   acPayWebhookSecret: process.env.AC_PAY_WEBHOOK_SECRET || process.env.COIN_STORE_WEBHOOK_SECRET || 'youpi_test_webhook_secret_for_coin_store_123',
+  googleSheetsUrl: process.env.VITE_GOOGLE_SHEETS_URL || 'https://script.google.com/macros/s/AKfycbzg4BDQ-WArUOngDa6oE94DvEvdeHohMEoBrSUJrIpnWT09cjbh-JOoN5sUPZGWIx2H/exec',
 
   // Database Path
   dbPath: process.env.KICKSTART_DB_PATH || path.resolve(__dirname, '../../../AC_Pay/AC-Pay/data/kickstart-registrations.sqlite'),

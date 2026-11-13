@@ -22,17 +22,20 @@ export default function RegistrationStatus() {
       return;
     }
 
-    try {
-      const res = await fetch(`/api/kickstart/status/${encodeURIComponent(orderId)}`);
-      if (res.ok) {
-        const data = await res.json();
-        setStatusData(data);
-        setError(null);
-        setLoading(false);
-        return;
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    if (backendUrl) {
+      try {
+        const res = await fetch(`${backendUrl}/api/kickstart/status/${encodeURIComponent(orderId)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setStatusData(data);
+          setError(null);
+          setLoading(false);
+          return;
+        }
+      } catch (apiErr) {
+        // Backend offline or unreachable
       }
-    } catch (apiErr) {
-      // Backend offline or running purely as static SPA on Vercel
     }
 
     // Client-side fallback from localStorage

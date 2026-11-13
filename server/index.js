@@ -340,6 +340,20 @@ export function createKickStartServer(options = {}) {
                 reg.payment_status = 'VERIFIED_PAID';
                 reg.utr = gw.utr || null;
                 reg.verified_at = nowIso;
+
+                // Sync to Google Sheets
+                if (cfg.googleSheetsUrl) {
+                  fetch(cfg.googleSheetsUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                      action: 'UPDATE_PAYMENT',
+                      orderId: orderId,
+                      paid: 'PAID',
+                      utr: gw.utr || null
+                    })
+                  }).catch(() => {});
+                }
               } else if (['FAILED', 'EXPIRED', 'CANCELLED'].includes(gw.status)) {
                 db.prepare(`
                   UPDATE kickstart_registrations
@@ -445,6 +459,20 @@ export function createKickStartServer(options = {}) {
             nowIso,
             orderId || null
           );
+
+          // Real-time sync to Google Sheets: mark row as PAID
+          if (cfg.googleSheetsUrl) {
+            fetch(cfg.googleSheetsUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({
+                action: 'UPDATE_PAYMENT',
+                orderId: orderId,
+                paid: 'PAID',
+                utr: utr || paymentId || '-'
+              })
+            }).catch(err => console.warn('[Google Sheets Sync Error]:', err.message));
+          }
         } else if (['FAILED', 'EXPIRED', 'CANCELLED'].includes(event)) {
           db.prepare(`
             UPDATE kickstart_registrations
